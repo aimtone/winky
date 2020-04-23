@@ -1,0 +1,35 @@
+<div id="open_button" *ngIf="open == false" (click)="open = true">
+    <img src="https://images.vexels.com/media/users/3/147085/isolated/preview/317c0fa59b9df5fd1a67b77837e5ef41-icono-de-l--nea-de-burbuja-de-chat-de-instagram-by-vexels.png">
+</div>
+<div id="chat_window" class="animated" [ngClass]="{'bounceInUp' : open, 'bounceOutDown' : !open }">
+    <div id="toolbar">
+        <div id="bot_info">
+            <div id="name">Anthony</div>
+            <div id="status" class="">{{'connected' | translate}}</div>
+        </div>
+        <button (click)="open = false">X</button>
+    </div>
+    <div id="chat_area">
+        <div *ngFor="let item of conversation">
+            <div *ngIf="item.type == 'info'">
+                <div class="info" *ngFor="let message of item.messages;"><span>{{message}}</span></div>
+            </div>
+            <div *ngIf="item.type == 'message'">
+                <div class="burble" [ngClass]="{'me': item.sender == 'me', 'first-child' : i == 0, 'last-child' : i == (item.messages.length - 1) }" *ngFor="let message of item.messages; let i = index">
+                    <div *ngIf="i == 0 && item.sender != 'me'" class="image">
+                        <img [src]="item.image">
+                    </div>
+                    <div *ngIf="i == 0" class="name">{{item.sender == 'me' ? ('you' | translate) : item.name}}
+                        <p class="time" [ngClass]="{'me': item.sender == 'me' }"><span>{{item.time}}</span></p>
+                    </div>
+                    <div class="message">{{message}}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="input_area">
+        <input type="text" [placeholder]="'typing_your_question' | translate">
+        <button></button>
+    </div>
+</div>

@@ -1,0 +1,276 @@
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css");
+        #open_button {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: rgb(125, 102, 242);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175)!important;
+        }
+        
+        #open_button img {
+            width: 100%;
+        }
+        
+        #chat_window {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.8em;
+            width: 300px;
+            height: 500px;
+            position: fixed;
+            right: 5px;
+            bottom: 0px;
+            border: 1px solid rgba(65, 57, 57, 0.53);
+            border-radius: 5px 5px 0px 0px;
+        }
+        
+        #chat_window #toolbar {
+            background: white;
+            width: 100%;
+            height: 40px;
+            min-height: 40px;
+            max-height: 40px;
+            padding: 5px 5px 5px 5px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #dedede;
+        }
+        
+        #chat_window #toolbar #bot_info {
+            float: left;
+        }
+        
+        #chat_window #toolbar #bot_info #name {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        #chat_window #toolbar #bot_info #status {
+            color: #6E6C6C;
+            font-size: 0.8em;
+        }
+        
+        #chat_window #toolbar #bot_info #status.typing {
+            font-style: italic;
+        }
+        
+        #chat_window #toolbar button {
+            float: right;
+            height: 100%;
+            font-size: 1em;
+            background: white;
+            border: 1px solid #dedede;
+            color: #B1ABAB;
+            border-radius: 3px 3px 3px 3px;
+            outline: none;
+        }
+        
+        #chat_window #toolbar button:hover {
+            background: #dedede;
+        }
+        
+        #chat_window #chat_area {
+            background-image: url("https://w.cliengo.com/assets/images/pattern_para_ventanas_de_chat-01_qurq2y.svg");
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            height: calc(100% - 80px);
+            margin-bottom: -80px;
+            padding: 10px 10px 15px 10px;
+            overflow: auto;
+        }
+        
+        #chat_window #chat_area::-webkit-scrollbar {
+            -webkit-appearance: none;
+        }
+        
+        #chat_window #chat_area::-webkit-scrollbar:vertical {
+            width: 10px;
+        }
+        
+        #chat_window #chat_area::-webkit-scrollbar-button:increment,
+        #chat_window #chat_area::-webkit-scrollbar-button {
+            display: none;
+        }
+        
+        #chat_window #chat_area::-webkit-scrollbar:horizontal {
+            height: 10px;
+        }
+        
+        #chat_window #chat_area::-webkit-scrollbar-thumb {
+            background-color: #797979;
+            border-radius: 20px;
+            border: 2px solid #f1f2f3;
+        }
+        
+        #chat_window #chat_area::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+        
+        #chat_window #chat_area .burble {
+            clear: both;
+            float: left;
+            display: block;
+            position: relative;
+            padding: 5px;
+            min-width: 50%;
+            max-width: 80%;
+            margin-bottom: 3px;
+            color: white;
+            background: rgb(125, 102, 242);
+            padding: 10px;
+            margin-left: 29px;
+            border-radius: 0px 8px 8px 0px;
+        }
+        
+        #chat_window #chat_area .burble.last-child {
+            border-radius: 0px 8px 8px 8px;
+        }
+        
+        #chat_window #chat_area .burble.me {
+            float: right;
+            background: #dcdcdc;
+            color: black;
+            border-radius: 8px 0px 0px 8px;
+        }
+        
+        #chat_window #chat_area .burble.me.first-child::before {
+            display: none;
+        }
+        
+        #chat_window #chat_area .burble.first-child::before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-right: 0px solid rgb(125, 102, 242);
+            border-top: 25px solid rgb(125, 102, 242);
+            border-left: 22px solid transparent;
+            border-bottom: 0px solid transparent;
+            left: -22px;
+            top: 0;
+        }
+        
+        #chat_window #chat_area .burble.me.last-child {
+            border-radius: 8px 0px 8px 8px;
+        }
+        
+        #chat_window #chat_area .burble .image {
+            width: 35px;
+            height: 35px;
+            background: white;
+            position: absolute;
+            z-index: 1;
+            border-radius: 50%;
+            border: 1px solid white;
+            left: -37px;
+            top: 1px;
+            overflow: hidden;
+        }
+        
+        #chat_window #chat_area .burble .image img {
+            height: 100%;
+            -o-object-fit: contain;
+            object-fit: contain;
+        }
+        
+        #chat_window #chat_area .burble .name {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        #chat_window #chat_area .burble .name .time {
+            position: absolute;
+            top: -3px;
+            right: 0;
+            font-weight: 400;
+        }
+        
+        #chat_window #chat_area .burble .name .time.me {
+            text-align: right;
+        }
+        
+        #chat_window #chat_area .burble .name .time span {
+            padding: 3px 10px;
+            border-radius: 11px;
+            color: white;
+            font-size: 10px;
+        }
+        
+        #chat_window #chat_area .burble .name .time.me span {
+            color: black;
+        }
+        
+        #chat_window #chat_area .burble.first-child {
+            margin-top: 5px;
+        }
+        
+        #chat_window #chat_area .info {
+            clear: both;
+            display: block;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #chat_window #chat_area .info span {
+            padding: 3px 10px;
+            border-radius: 11px;
+            color: rgba(0, 0, 0, 0.9);
+        }
+        
+        #chat_window #input_area {
+            position: absolute;
+            background: white;
+            width: 100%;
+            height: 40px;
+            min-height: 40px;
+            max-height: 40px;
+            border-top: 1px solid #dedede;
+            bottom: 0;
+        }
+        
+        #chat_window #input_area input {
+            float: left;
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            padding-right: 60px;
+            padding-left: 10px;
+            border: none;
+            outline: none;
+        }
+        
+        #chat_window #input_area input[placeholder] {
+            font-size: 1.3em;
+        }
+        
+        #chat_window #input_area button {
+            float: right;
+            height: 100%;
+            width: 50px;
+            margin-top: -40px;
+            border: none;
+            background: transparent;
+            outline: none;
+            background-image: url(https://w.cliengo.com/assets/images/Sendbutton-03.svg);
+            background-repeat: no-repeat;
+            background-size: 35px 35px;
+            transition: all ease-in-out 0.5s;
+        }
+        
+        #chat_window #input_area button:hover {
+            opacity: 0.7;
+            transition: all ease-in-out 0.5s;
+        }
+        
+        @media only screen and (max-width: 768px) {
+            #chat_window {
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                left: 0px;
+                border: none;
+            }
+        }
