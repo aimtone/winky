@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Aplicación con Sockets</title>
+</head>
+
+<body>
+    <h1>My App</h1>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script>
+        var socket = io('http://192.168.1.94:3000');
+        socket.emit("add user", "xxxx-xxxx-xxxx-xxxxxxxxx", (callback) => {
+            console.log(callback);
+        })
+    </script>
+</body>
+
+</html>

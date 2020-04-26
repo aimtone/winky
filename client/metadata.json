@@ -1,0 +1,6 @@
+{
+    "bots": [
+        { "id": 1, "guid": "xxxx-xxxx-xxxx-xxxxxxxxx", "name": "Maria" },
+        { "id": 2, "guid": "zzzz-zzzz-zzzz-zzzzzzzzz", "name": "Juan" }
+    ]
+}

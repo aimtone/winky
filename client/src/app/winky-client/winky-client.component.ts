@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SocketService } from '../socket.service';
+import { SocketService } from '../services/socket.service';
+import { WinkyService } from '../services/winky.service';
+
 import { v4 as uuidv4 } from 'uuid';
-import { faCheckDouble, faClock } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'winky-client',
@@ -11,10 +12,9 @@ import { faCheckDouble, faClock } from '@fortawesome/free-solid-svg-icons';
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class WinkyClientComponent implements OnInit {
-  faCheckDouble = faCheckDouble;
-  faClock = faClock;
-  isFirstOpening: boolean = true;
-  isOpen: boolean = false;
+  @Input() uuid: string;
+  isFirstOpening: boolean = false;
+  isOpen: boolean = true;
   message: string = '';
   pulse: any;
 
@@ -99,16 +99,33 @@ export class WinkyClientComponent implements OnInit {
     }
   ];
 
+  winky_data = {
+    name : "Juan"
+  }
+
   constructor(
     private translate: TranslateService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private winkyServices: WinkyService
+    
   ) {
     translate.setDefaultLang('en');
   }
 
+  
+
   async ngOnInit() {
-    // let addClient = await this.socketService.addClient();
-    // console.log(addClient);
+    
+
+
+    let data:any = await this.winkyServices.getData(this.uuid).toPromise();
+    if(data.length != 0) {
+      this.winky_data = data[0];
+    }
+
+    let addClient = await this.socketService.addClient(this.uuid);
+    console.log(addClient);
+    
   }
 
   changeLocale(language: string) {

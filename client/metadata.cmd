@@ -1,0 +1,1 @@
+json-server --watch metadata.json --port 8082 --host 0.0.0.0

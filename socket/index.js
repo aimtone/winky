@@ -18,44 +18,33 @@ let usernames = [];
 let numUsers = 0;
 
 io.on('connection', (socket) => {
-    socket.username = { ip: socket.request.connection.remoteAddress, socket_id: [], conversation: [] };
 
-    let username = usernames.filter(username => username.ip == socket.username.ip);
 
-    if (username.length == 0) {
-        socket.username.socket_id.push(socket.id);
-        usernames.push(socket.username);
-        ++numUsers;
-        //enviar notificacion de que un usuario nuevo se ha conectado
-    } else {
-        socket.username.socket_id = username[0].socket_id;
-        socket.username.socket_id.push(socket.id);
-        username[0] = socket.username;
-    }
+    socket.on('add user', (room, callback) => {
+        socket.username = { ip: socket.request.connection.remoteAddress, socket_id: [], conversation: [] };
 
-    /* socket.on('add user', (callback) => {
-         socket.username = { ip: socket.request.connection.remoteAddress, socket_id: [], conversation: [] };
+        let username = usernames.filter(username => username.ip == socket.username.ip);
 
-         let username = usernames.filter(username => username.ip == socket.username.ip);
-
-         if (username.length == 0) {
-             socket.username.socket_id.push(socket.id);
-             usernames.push(socket.username);
-             ++numUsers;
-             //enviar notificacion de que un usuario nuevo se ha conectado
-         } else {
-             socket.username.socket_id = username[0].socket_id;
-             socket.username.socket_id.push(socket.id);
-             username[0] = socket.username;
-         }
-
-         callback(socket.username)
-     });*/
+        if (username.length == 0) {
+            socket.username.socket_id.push(socket.id);
+            usernames.push(socket.username);
+            ++numUsers;
+            //enviar notificacion de que un usuario nuevo se ha conectado
+        } else {
+            socket.username.socket_id = username[0].socket_id;
+            socket.username.socket_id.push(socket.id);
+            username[0] = socket.username;
+        }
+        socket.join(room);
+        console.log(socket.username)
+        callback(socket.username)
+    });
 
     socket.on('new message', (data, callback) => {
         data.time = moment().format('h:mm');
         data.messages.map(element => {
             element.status = 2;
+            console.log(element)
         })
 
         let time_exist = socket.username.conversation.filter(element => element.time == data.time);
