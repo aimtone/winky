@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlansitemsTable extends Migration
+class CreatePlanitemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePlansitemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('plansitems', function (Blueprint $table) {
+        Schema::create('planitems', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('description');
@@ -29,6 +29,6 @@ class CreatePlansitemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plansitems');
+        Schema::dropIfExists('planitems');
     }
 }

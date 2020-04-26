@@ -20,7 +20,7 @@ class CreateUsersWebsitesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->unsignedBigInteger('website_id');
             $table->foreign('website_id')->references('id')->on('websites')->onUpdate('cascade')->onDelete('restrict');
-            $table->unique('user_id', 'website_id');
+            $table->unique(['user_id', 'website_id']);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

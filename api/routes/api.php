@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function(){
-    Route::post('login', 'AuthController@login');
-    Route::post('register', 'AuthController@register');
+    Route::post('login', 'UserController@login');
+    Route::post('register', 'UserController@register');
 
     Route::group(['middleware' => 'auth:api'], function() {
-        Route::post('getUser', 'AuthController@getUser');
+        Route::post('getUser', 'UserController@getUser');
     });
 
 });

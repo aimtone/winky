@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlansPlansitemsTable extends Migration
+class CreatePlanPlanitemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreatePlansPlansitemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('plans_plansitems', function (Blueprint $table) {
+        Schema::create('plan__planitems', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('plan_id');
             $table->foreign('plan_id')->references('id')->on('plans')->onUpdate('cascade')->onDelete('restrict');
-            $table->unsignedBigInteger('planitems_id');
-            $table->foreign('planitems_id')->references('id')->on('plansitems')->onUpdate('cascade')->onDelete('restrict');
+            $table->unsignedBigInteger('planitem_id');
+            $table->foreign('planitem_id')->references('id')->on('planitems')->onUpdate('cascade')->onDelete('restrict');
             $table->string('value');
-            $table->unique('plan_id', 'planitems_id');
+            $table->unique(['plan_id', 'planitem_id']);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class CreatePlansPlansitemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans_plansitems');
+        Schema::dropIfExists('plan__planitems');
     }
 }

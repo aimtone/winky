@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Webpatser\Uuid\Uuid;
 
-class AuthController extends Controller
+class UserController extends Controller
 {
     //
     public $successStatus = 200;
