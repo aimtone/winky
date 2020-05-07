@@ -18,9 +18,14 @@ class CreatePlansTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name');
             $table->double('price', 8, 2);
+            $table->boolean('recommended')->default(false);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE plans ALTER uuid SET DEFAULT (uuid())');
+   
+        
     }
 
     /**

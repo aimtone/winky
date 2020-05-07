@@ -20,6 +20,9 @@ class CreatePlanitemsTable extends Migration
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE planitems ALTER uuid SET DEFAULT (uuid())');
+    
     }
 
     /**

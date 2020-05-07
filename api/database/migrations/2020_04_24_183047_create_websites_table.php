@@ -21,10 +21,15 @@ class CreateWebsitesTable extends Migration
             $table->boolean('verified_website')->default(false);
             $table->timestamp('website_verified_at')->nullable();
             $table->boolean('status')->default(true);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->uuid('user_uuid');
+            $table->foreign('user_uuid')->references('uuid')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
+            $table->unique(['protocol','address', 'user_uuid']);
+
         });
+
+        DB::statement('ALTER TABLE websites ALTER uuid SET DEFAULT (uuid())');
+
     }
 
     /**

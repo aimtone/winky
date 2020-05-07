@@ -24,6 +24,8 @@ class CreateUsersWebsitesTable extends Migration
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE users_websites ALTER uuid SET DEFAULT (uuid())');
     }
 
     /**

@@ -15,11 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function(){
-    Route::post('login', 'UserController@login');
-    Route::post('register', 'UserController@register');
+    //Route::get('getPlans', 'PlanController@index');
+
+    Route::post('/user/register', 'UserController@register');
+    Route::post('/user/login', 'UserController@login')->middleware('localization');
+    Route::get('/user/verificate/{email_verification_key}', 'UserController@verificate');
+    Route::put('/user/operator/update/{email_verification_key}', 'UserController@updateOperator');
+    Route::get('/website/{uuid}', 'WebsiteController@getWebsitePublicClientInfo');
 
     Route::group(['middleware' => 'auth:api'], function() {
-        Route::post('getUser', 'UserController@getUser');
+        Route::get('getUser', 'UserController@getUser');
+        Route::get('logout', 'UserController@logout');
+        
+        //Route::resource('plan', 'PlanController');
+        //Route::resource('planitem', 'PlanitemController');
+        Route::resource('plan_planitem', 'Plan_PlanitemController');
+
+        Route::post('/website/create', 'WebsiteController@create');
     });
 
 });

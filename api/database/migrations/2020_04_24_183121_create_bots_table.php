@@ -17,11 +17,14 @@ class CreateBotsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->unsignedBigInteger('website_id')->unique();
-            $table->foreign('website_id')->references('id')->on('websites')->onUpdate('cascade')->onDelete('restrict');
+            $table->uuid('website_uuid')->unique();
+            $table->foreign('website_uuid')->references('uuid')->on('websites')->onUpdate('cascade')->onDelete('restrict');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE bots ALTER uuid SET DEFAULT (uuid())');
+
     }
 
     /**

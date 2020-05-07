@@ -8,25 +8,28 @@ import { map } from 'rxjs/operators';
 export class SocketService {
   constructor(private socket: Socket) {}
 
-  addClient(data: string) {
+  addClient(room: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.socket.emit("add user", data, async (callback: unknown) => {
-          resolve(callback);
-        })
+        this.socket.emit(
+          'add user',
+          { room: room },
+          async (callback: unknown) => {
+            resolve(callback);
+          }
+        );
       } catch (error) {
         reject(error);
       }
-      
     });
   }
 
   sendMessage(data: any) {
     return new Promise((resolve, reject) => {
       try {
-        this.socket.emit("new message", data, async (callback: unknown) => {
+        this.socket.emit('new message', data, async (callback: unknown) => {
           resolve(callback);
-        })
+        });
       } catch (error) {
         reject(error);
       }

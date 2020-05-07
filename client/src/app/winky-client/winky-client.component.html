@@ -1,42 +1,44 @@
-<div id="open_button" class="animated" [ngClass]="{'flipInY delay-1s' : !isOpen, 'flipOutY' : isOpen }" *ngIf="isOpen == false" (click)="isFirstOpening = false;toggleOpen()">
-    <img src="https://images.vexels.com/media/users/3/147085/isolated/preview/317c0fa59b9df5fd1a67b77837e5ef41-icono-de-l--nea-de-burbuja-de-chat-de-instagram-by-vexels.png">
-</div>
-<div id="chat_window" *ngIf="!isFirstOpening" class="animated" [ngClass]="{'slideInUp' : isOpen, 'slideOutDown' : !isOpen }">
-    <div id="toolbar">
-        <div id="bot_info">
-            <div id="name">{{winky_data.name}}</div>
-            <div id="status" class="">{{'connected' | translate}}</div>
-        </div>
-        <button (click)="toggleOpen()">X</button>
+<div *ngIf="winky_data != null">
+    <div id="open_button" class="animated" [ngClass]="{'flipInY delay-1s' : !isOpen, 'flipOutY' : isOpen }" *ngIf="isOpen == false" (click)="isFirstOpening = false;toggleOpen()">
+        <img src="https://images.vexels.com/media/users/3/147085/isolated/preview/317c0fa59b9df5fd1a67b77837e5ef41-icono-de-l--nea-de-burbuja-de-chat-de-instagram-by-vexels.png">
     </div>
-    <div id="chat_area">
-        <div *ngFor="let item of conversation">
-            <div *ngIf="item.type == 'info'">
-                <div class="info" *ngFor="let message of item.messages;"><span>{{message.text}}</span></div>
+    <div id="chat_window" *ngIf="!isFirstOpening" class="animated" [ngClass]="{'slideInUp' : isOpen, 'slideOutDown' : !isOpen }">
+        <div id="toolbar">
+            <div id="bot_info">
+                <div id="name">{{winky_data.name}}</div>
+                <div id="status" class="">{{'connected' | translate}}</div>
             </div>
-            <div *ngIf="item.type == 'message'">
-                <div [id]="message.guid" class="burble animated" [ngClass]="{'flipInX' : message.status == 1, 'me': item.sender == 'me', 'first-child' : i == 0, 'last-child' : i == (item.messages.length - 1), 'opacity' : message.status == 0 }" *ngFor="let message of item.messages; let i = index">
-                    <div *ngIf="i == 0 && item.sender != 'me'" class="image">
-                        <img [src]="item.image">
-                    </div>
-                    <div *ngIf="i == 0 && message.status != 1" class="name">{{item.sender == 'me' ? ('you' | translate) : item.name}}
-                        <p class="time" [ngClass]="{'me': item.sender == 'me' }"><span>{{item.time}}</span></p>
-                    </div>
-                    <div class="message">{{message.text}}</div>
-                    <div *ngIf="item.sender == 'me'" class="message_status">
-                        <span><img title="Not sent" *ngIf="message.status == 0" src="../../assets/images/error.svg"></span>
-                        <span><img title="Sending" *ngIf="message.status == 1" src="../../assets/images/clock.svg"></span>
-                        <span><img title="Received on server" *ngIf="message.status == 2" src="../../assets/images/check.svg"></span>
-                        <span><img title="Delivered" *ngIf="message.status == 3" src="../../assets/images/doublecheck1.svg"></span>
-                        <span><img title="Read" *ngIf="message.status == 4" src="../../assets/images/doublecheck2.svg"></span>
+            <button (click)="toggleOpen()">X</button>
+        </div>
+        <div id="chat_area">
+            <div *ngFor="let item of conversation">
+                <div *ngIf="item.type == 'info'">
+                    <div class="info" *ngFor="let message of item.messages;"><span>{{message.text}}</span></div>
+                </div>
+                <div *ngIf="item.type == 'message'">
+                    <div [id]="message.guid" class="burble animated" [ngClass]="{'flipInX' : message.status == 1, 'me': item.sender == 'me', 'first-child' : i == 0, 'last-child' : i == (item.messages.length - 1), 'opacity' : message.status == 0 }" *ngFor="let message of item.messages; let i = index">
+                        <div *ngIf="i == 0 && item.sender != 'me'" class="image">
+                            <img [src]="item.image">
+                        </div>
+                        <div *ngIf="i == 0 && message.status != 1" class="name">{{item.sender == 'me' ? ('you' | translate) : item.name}}
+                            <p class="time" [ngClass]="{'me': item.sender == 'me' }"><span>{{item.time}}</span></p>
+                        </div>
+                        <div class="message">{{message.text}}</div>
+                        <div *ngIf="item.sender == 'me'" class="message_status">
+                            <span><img title="Not sent" *ngIf="message.status == 0" src="../../assets/images/error.svg"></span>
+                            <span><img title="Sending" *ngIf="message.status == 1" src="../../assets/images/clock.svg"></span>
+                            <span><img title="Received on server" *ngIf="message.status == 2" src="../../assets/images/check.svg"></span>
+                            <span><img title="Delivered" *ngIf="message.status == 3" src="../../assets/images/doublecheck1.svg"></span>
+                            <span><img title="Read" *ngIf="message.status == 4" src="../../assets/images/doublecheck2.svg"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
-    <div id="input_area">
-        <input [(ngModel)]="message" (keypress)="sendMessage($event)" type="text" [placeholder]="'typing_your_question' | translate">
-        <button type="button" (click)="sendMessage($event)"></button>
+        <div id="input_area">
+            <input [(ngModel)]="message" (keypress)="sendMessage($event)" type="text" [placeholder]="'typing_your_question' | translate">
+            <button type="button" (click)="sendMessage($event)"></button>
+        </div>
     </div>
 </div>

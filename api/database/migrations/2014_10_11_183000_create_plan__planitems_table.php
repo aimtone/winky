@@ -16,15 +16,19 @@ class CreatePlanPlanitemsTable extends Migration
         Schema::create('plan__planitems', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->unsignedBigInteger('plan_id');
-            $table->foreign('plan_id')->references('id')->on('plans')->onUpdate('cascade')->onDelete('restrict');
-            $table->unsignedBigInteger('planitem_id');
-            $table->foreign('planitem_id')->references('id')->on('planitems')->onUpdate('cascade')->onDelete('restrict');
+            $table->uuid('plan_uuid');
+            $table->foreign('plan_uuid')->references('uuid')->on('plans')->onUpdate('cascade')->onDelete('restrict');
+            $table->uuid('planitem_uuid');
+            $table->foreign('planitem_uuid')->references('uuid')->on('planitems')->onUpdate('cascade')->onDelete('restrict');
             $table->string('value');
-            $table->unique(['plan_id', 'planitem_id']);
+            $table->unique(['plan_uuid', 'planitem_uuid']);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE plan__planitems ALTER uuid SET DEFAULT (uuid())');
+
+        
     }
 
     /**

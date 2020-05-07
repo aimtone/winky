@@ -12,6 +12,11 @@ class Plan extends Model
      * @var array
      */
     protected $fillable = [
-        'uuid', 'name', 'price', 'status'
+        'name', 'price', 'recommended', 'status'
     ];
+
+    protected $hidden = [
+        'id', 'status', 'created_at', 'updated_at'
+    ];
+
 }

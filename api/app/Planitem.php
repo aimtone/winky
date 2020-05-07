@@ -12,7 +12,11 @@ class Planitem extends Model
      * @var array
      */
     protected $fillable = [
-        'uuid', 'description', 'status'
+        'description', 'status'
+    ];
+
+    protected $hidden = [
+        'id', 'status', 'created_at', 'updated_at'
     ];
   
 }

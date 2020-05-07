@@ -12,6 +12,10 @@ class Plan_Planitem extends Model
      * @var array
      */
     protected $fillable = [
-        'uuid', 'plan_id', 'planitem_id', 'value', 'status'
+        'plan_uuid', 'planitem_uuid', 'value', 'status'
+    ];
+
+    protected $hidden = [
+        'id', 'status', 'created_at', 'updated_at'
     ];
 }

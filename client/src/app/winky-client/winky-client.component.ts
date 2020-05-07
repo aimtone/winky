@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SocketService } from '../services/socket.service';
 import { WinkyService } from '../services/winky.service';
-
+import { Socket } from 'ngx-socket-io';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -99,33 +99,45 @@ export class WinkyClientComponent implements OnInit {
     }
   ];
 
-  winky_data = {
-    name : "Juan"
-  }
+  winky_data = null;
 
   constructor(
     private translate: TranslateService,
     private socketService: SocketService,
-    private winkyServices: WinkyService
-    
+    private winkyServices: WinkyService,
+    private socket: Socket
   ) {
     translate.setDefaultLang('en');
   }
 
-  
-
   async ngOnInit() {
-    
+    let data: any = await this.winkyServices.getData(this.uuid).toPromise();
+    if (data.data != null) {
+      this.winky_data = data.data[0];
+      let addClient = await this.socketService.addClient(this.uuid);
 
+      this.socket.on('new operator message', (data) => {
+        if (this.conversation.length == 0) {
+          this.conversation.push(data.data);
+        } else {
+          let time = this.conversation.findIndex(
+            (element) =>
+              data.data.time == element.time && data.data.sender == 'operator'
+          );
 
-    let data:any = await this.winkyServices.getData(this.uuid).toPromise();
-    if(data.length != 0) {
-      this.winky_data = data[0];
+          let last_message = this.conversation[this.conversation.length - 1];
+
+          if (
+            last_message.time === data.data.time &&
+            last_message.sender === data.data.sender
+          ) {
+            last_message.messages.push(data.data.messages[0]);
+          } else {
+            this.conversation.push(data.data);
+          }
+        }
+      });
     }
-
-    let addClient = await this.socketService.addClient(this.uuid);
-    console.log(addClient);
-    
   }
 
   changeLocale(language: string) {
@@ -137,6 +149,10 @@ export class WinkyClientComponent implements OnInit {
   }
 
   async sendMessage(e) {
+    let last_message =
+      this.conversation.length != 0
+        ? this.conversation[this.conversation.length - 1]
+        : null;
     if (e.type == 'click') {
       //presiona enbootn
     }
@@ -164,24 +180,60 @@ export class WinkyClientComponent implements OnInit {
 
         let data = await this.socketService.sendMessage(payload);
         if (data['success']) {
-          e = this.conversation.filter(
-            (element) => element.guid == data['data'].guid
+          let element = this.conversation.filter(
+            (e) => e.guid == data['data'].guid
           );
-          let time_exist = this.conversation.filter(
-            (element) => element.time == data['data'].time
+
+          setTimeout(() => {
+            if (last_message != null) {
+              // evaluar si el mensaje recibido del callback debe añadirse a la hora delultimo
+              // mensaje o no
+              console.log(last_message, data['data']);
+              if (
+                data['data'].time === last_message.time &&
+                data['data'].sender === last_message.sender
+              ) {
+                // agregarlo a ese mensaje
+                let index = this.conversation.findIndex(
+                  (element) => element.guid == data['data'].guid
+                );
+                console.log(index);
+                this.conversation.splice(index, 1);
+
+                last_message.messages.push(data['data'].messages[0]);
+              } else {
+                // hacer un push sobre mensaje origianl
+                Object.assign(element[0], data['data']);
+              }
+            } else {
+              Object.assign(element[0], data['data']);
+            }
+          }, 1000);
+
+          // console.log(this.conversation);
+          /*let time = this.conversation.findIndex(
+            (element) =>
+              element.time == data['data'].time && element.sender == 'me'
           );
+
+          // console.log(time)
 
           setTimeout(() => {
             if (time_exist.length == 0) {
               Object.assign(e[0], data['data']);
             } else {
-              let index = this.conversation.findIndex(
-                (element) => element.guid == data['data'].guid
-              );
-              this.conversation.splice(index, 1);
-              time_exist[0].messages.push(data['data'].messages[0]);
+              if(time_exist[0].sender == "me") {
+                let index = this.conversation.findIndex(
+                  (element) => element.guid == data['data'].guid
+                );
+                console.log(index)
+                this.conversation.splice(index, 1);
+                time_exist[0].messages.push(data['data'].messages[0]);
+              }
+              
             }
           }, 1000);
+          */
         }
       }
     }

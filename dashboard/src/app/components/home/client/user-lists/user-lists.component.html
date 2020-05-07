@@ -1,0 +1,23 @@
+<div id="chat_users" [class]="class">
+    <ul class="list-unstyled">
+        <li *ngFor="let item of socketService.connectedClients" class="media pb-2" (click)="selectConversation(item)">
+
+            <img width=" 60 " src="../../../../assets/images/face4.jpg " class="mr-3 rounded-circle " alt="... ">
+            <div class="media-body pb-2 divider ">
+                <div class="d-flex justify-content-between ">
+                    <h6 class="mt-2 mb-1 font-weight-bold ">{{item.ip}}</h6>
+                    <p *ngIf="item.conversation.length !== 0" class="mt-2 mb-0 small-font ">{{item.conversation[item.conversation.length - 1].time}}</p>
+                </div>
+
+
+                <span *ngIf="item.conversation.length !== 0">
+                    {{item.conversation[item.conversation.length - 1].messages[item.conversation[item.conversation.length - 1].messages.length - 1].text}}
+                </span>
+                <span *ngIf="item.conversation.length === 0">
+                    <i>No hay mensajes</i>
+                </span>
+            </div>
+
+        </li>
+    </ul>
+</div>
